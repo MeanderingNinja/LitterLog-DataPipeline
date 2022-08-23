@@ -1,0 +1,27 @@
+.idea
+*.swp
+*.swo
+.DS_Store
+.cproject
+.project
+.pydevproject
+.settings/
+.vscode/
+*.out
+*.o
+*.so
+build/
+.env
+*.iml
+*.csv
+
+#Added by cargo
+
+#/target
+#kernel.willis/dist/*.whl
+
+#Added by python
+__pycache__
+*.egg-info
+
+#.testenv/
