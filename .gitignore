@@ -23,5 +23,6 @@ build/
 #Added by python
 __pycache__
 *.egg-info
+*.cpython*
 
 #.testenv/
