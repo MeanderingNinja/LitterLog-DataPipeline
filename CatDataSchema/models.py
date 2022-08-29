@@ -8,13 +8,7 @@ from sqlalchemy import (
     Integer,
     Date,
 )
-from sqlalchemy import create_engine
 
-from .config import DATABASE_URL
-
-# DATABASE_URL = (
-#     "postgresql+psycopg2://emma_dev:emma_dev@192.168.1.157:5432/cat_tech_database"
-# )
 Base = declarative_base()
 
 # Create CatData class with table name cat_data. This is the table name that will show up in Postges.
@@ -29,8 +23,3 @@ class CatData(Base):
 
     ####### @validates may need to be added later on ##############
 
-
-# Manually create the schema in the database (tested to work 20220728)
-# engine = create_engine(DATABASE_URL)
-# Base.metadata.create_all(engine)
-# engine.dispose()
