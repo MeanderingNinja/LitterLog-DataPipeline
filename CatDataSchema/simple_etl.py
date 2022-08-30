@@ -10,8 +10,6 @@ import glob
 import os
 import time
 
-#from more_itertools import last
-
 # from CatDataSchema.config import DATABASE_URL
 from .config import DATABASE_URL
 
