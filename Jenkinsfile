@@ -2,6 +2,7 @@
 pipeline {
   options {
     buildDiscarder(logRotator(numToKeepStr: '10')) // Retain history on the last 10 builds
+
     timestamps() // Append timestamps to each line
     timeout(time: 20, unit: 'MINUTES') // Set a timeout on the total execution time of the job
   }
@@ -16,7 +17,7 @@ pipeline {
       steps {
         script {
           sh """
-          python3 -m pip install pytest && pytest --version 
+          python3 -m pip install pytest && python3 -m pytest --version 
           """
         }
       }
