@@ -19,6 +19,9 @@ pipeline {
           sh """
           python3 -m pip install pytest && python3 -m pytest --version 
           python3 -m pip install pylint && python3 -m pylint --version
+          mkdir -p /opt/catwatcher/metabase_docker
+          mkdir -p /opt/catwatcher/db-data
+          mkdir -p /var/nfs/cat_watcher_output
           """
         }
       }
