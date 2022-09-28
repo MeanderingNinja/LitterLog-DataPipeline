@@ -159,7 +159,8 @@ def load_cat_data(
     from sqlalchemy import (
         create_engine,
     )
-
+    # 20220920 debug
+    LOGGER.info(f"DATABASE_URL used is {DATABASE_URL}")
     cat_schema_engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=cat_schema_engine)
     s = Session()
