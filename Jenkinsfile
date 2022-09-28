@@ -58,7 +58,7 @@ pipeline {
     stage('Start containers using docker compose'){ // https://www.youtube.com/watch?v=ZPD_PzGOvFM&t=168s (How to use docker compose with Jenkins)
       steps{
         sh 'cd docker && docker compose up -d --no-color --wait' // Do I need to use sudo? If the user Jenkins is using it, perhaps not? (since I issued sudo usermod -a -G docker jenkins)
-        sh 'docker compose ps'
+        sh 'cd docker && docker compose ps'
       }
     }
     //stage('Unit Testing') { // Perform unit testing (The tests are written based on using the home server192.168.1.157, so this won't work here)
