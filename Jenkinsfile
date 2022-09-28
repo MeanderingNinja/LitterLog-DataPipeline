@@ -18,6 +18,7 @@ pipeline {
         script {
           sh """
           python3 -m pip install pytest && python3 -m pytest --version 
+          python3 -m pip install pylint && python3 -m pylint --version
           """
         }
       }
@@ -26,7 +27,7 @@ pipeline {
       steps {
         script {
           sh """
-          pylint **/*.py
+          python3 -m pylint **/*.py
           """
         }
       }
