@@ -93,4 +93,5 @@ pipeline {
       sh 'docker compose down --remove-orphans -v' //what is --remove-orphans
       sh 'docker compose ps'
     }
+  }
 }
