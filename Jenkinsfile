@@ -25,10 +25,12 @@ pipeline {
     }
     stage('Linting') { // Run pylint against your code
       steps {
-        script {
-          sh """
-          python3 -m pylint **/*.py
-          """
+        catchError{
+          script {
+            sh """
+            python3 -m pylint **/*.py
+            """
+          }
         }
       }
     }
@@ -99,3 +101,4 @@ pipeline {
     }
   }
 }
+
