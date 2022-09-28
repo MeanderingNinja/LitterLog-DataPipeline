@@ -63,6 +63,7 @@ pipeline {
         sh 'curl http://metabase:3000'
       }
     }
+  }
     //stage('Integration Testing') { //Perform integration testing
       //steps {
         //script {
