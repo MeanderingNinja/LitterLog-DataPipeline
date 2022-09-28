@@ -50,7 +50,7 @@ pipeline {
     }
     stage('Test building datawatcher container from the self-built image cat_data_watcher:latest'){
       steps{
-        sh 'docker run cat_data_watcher:latest -d'
+        sh 'cd docker && docker run cat_data_watcher:latest -d'
         sh 'docker ps'
       }
     }
