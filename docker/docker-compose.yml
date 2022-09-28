@@ -5,10 +5,10 @@ services:
     image: metabase/metabase:latest
     ports:
       - "127.0.0.1:3001:3000"   # Used 3001 instead as 3000 is used when installing metabase locally 
-    volumes:
-      - type: bind
-        source: /opt/catwatcher/metabase_docker  # this might have permission issue for docker mount!!! Doesn't seem to have the problem20220915 
-        target: /metabase  # directory in docker 
+    # volumes:
+    #   - type: bind
+    #     source: /opt/catwatcher/metabase_docker  # this might have permission issue for docker mount!!! Doesn't seem to have the problem20220915 
+    #     target: /metabase  # directory in docker 
     restart: always
     environment:
       MB_DB_TYPE: postgres
@@ -23,10 +23,10 @@ services:
 
   db:
     image: postgres
-    volumes:
-      - type: bind
-        source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
-        target: /var/lib/postgresql/data
+    # volumes:
+    #   - type: bind
+    #     source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
+    #     target: /var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: metabase_catwatcher_docker_user
@@ -37,10 +37,10 @@ services:
 
   datawatcher:
     image: cat_data_watcher:latest
-    volumes:
-      - type: bind
-        source: /var/nfs/cat_watcher_output
-        target: /usr/cat_watcher_output
+    # volumes:
+    #   - type: bind
+    #     source: /var/nfs/cat_watcher_output
+    #     target: /usr/cat_watcher_output
     restart: always
     depends_on:
       - db

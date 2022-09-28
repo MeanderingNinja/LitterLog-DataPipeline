@@ -19,9 +19,7 @@ pipeline {
           sh """
           python3 -m pip install pytest && python3 -m pytest --version 
           python3 -m pip install pylint && python3 -m pylint --version
-          mkdir /opt/catwatcher/metabase_docker -p
-          mkdir /opt/catwatcher/db-data -p 
-          mkdir /var/nfs/cat_watcher_output -p 
+
           """
         }
       }
@@ -51,12 +49,12 @@ pipeline {
         sh './build.sh'
       }
     }
-    stage('Test building datawatcher container from the self-built image cat_data_watcher:latest'){
-      steps{
-        sh 'cd docker && docker run -d cat_data_watcher:latest'
-        sh 'docker ps'
-      }
-    }
+    // stage('Test building datawatcher container from the self-built image cat_data_watcher:latest'){
+    //   steps{
+    //     sh 'cd docker && docker run -d cat_data_watcher:latest'
+    //     sh 'docker ps'
+    //   }
+    // }
     stage('Start containers using docker compose'){ // https://www.youtube.com/watch?v=ZPD_PzGOvFM&t=168s (How to use docker compose with Jenkins)
       steps{
         sh 'cd docker && docker compose up -d --no-color --wait' // Do I need to use sudo? If the user Jenkins is using it, perhaps not? (since I issued sudo usermod -a -G docker jenkins)
