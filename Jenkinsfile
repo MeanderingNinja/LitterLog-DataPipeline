@@ -48,6 +48,12 @@ pipeline {
         sh './build.sh'
       }
     }
+    stage('Test building datawatcher container from the self-built image cat_data_watcher:latest'){
+      steps{
+        sh 'docker run cat_data_watcher:latest -d'
+        sh 'docker ps'
+      }
+    }
     stage('Start containers using docker compose'){ // https://www.youtube.com/watch?v=ZPD_PzGOvFM&t=168s (How to use docker compose with Jenkins)
       steps{
         sh 'cd docker && docker compose up -d --no-color --wait' // Do I need to use sudo? If the user Jenkins is using it, perhaps not? (since I issued sudo usermod -a -G docker jenkins)
