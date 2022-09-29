@@ -57,7 +57,7 @@ pipeline {
     // }
     stage('Start containers using docker compose'){ // https://www.youtube.com/watch?v=ZPD_PzGOvFM&t=168s (How to use docker compose with Jenkins)
       steps{
-        sh 'cd docker && docker compose up -d --no-color --wait' // Do I need to use sudo? If the user Jenkins is using it, perhaps not? (since I issued sudo usermod -a -G docker jenkins)
+        sh 'cd docker && docker compose up -d --no-color --wait' // Do I need to use sudo? If the user Jenkins is using it, perhaps not? (since I issued sudo usermod -a -G docker jenkins). A:NO
         sh 'cd docker && docker compose ps'
       }
     }
