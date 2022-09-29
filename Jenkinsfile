@@ -72,7 +72,7 @@ pipeline {
     //}
     stage('Run tests against the nginx/metabase container'){
       steps{
-        sh 'curl http://metabase:3000'
+        sh 'curl http://localhost'
       }
     }
   }
