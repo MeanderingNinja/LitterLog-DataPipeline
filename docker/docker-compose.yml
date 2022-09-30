@@ -5,6 +5,8 @@ services:
     image: metabase/metabase:latest
     ports:
       - "127.0.0.1:3001:3000"   # Used 3001 instead as 3000 is used when installing metabase locally 
+    volumes:
+      - metabase_docker:/metabase
     # volumes:
     #   - type: bind
     #     source: /opt/catwatcher/metabase_docker  # this might have permission issue for docker mount!!! Doesn't seem to have the problem20220915 
@@ -23,6 +25,9 @@ services:
 
   db:
     image: postgres
+    # Changed the volumes from bind mount to volume mount (simpler to run through Jenkins pipeline)
+    volumes:
+      - db_data:/var/lib/postgresql/data
     # volumes:
     #   - type: bind
     #     source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
@@ -37,10 +42,10 @@ services:
 
   datawatcher:
     image: cat_data_watcher:latest
-    # volumes:
-    #   - type: bind
-    #     source: /var/nfs/cat_watcher_output
-    #     target: /usr/cat_watcher_output
+    volumes:
+      - type: bind
+        source: ./cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        target: /usr/cat_watcher_output
     restart: always
     depends_on:
       - db
@@ -61,3 +66,6 @@ services:
       - type: bind
         source: ./nginx.conf
         target: /etc/nginx/nginx.conf
+volumes:
+  metabase_docker:
+  db_data:
