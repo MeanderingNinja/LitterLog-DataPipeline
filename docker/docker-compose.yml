@@ -44,7 +44,7 @@ services:
     image: cat_data_watcher:latest
     volumes:
       - type: bind
-        source: ./cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        source: cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
         target: /usr/cat_watcher_output
     restart: always
     depends_on:
