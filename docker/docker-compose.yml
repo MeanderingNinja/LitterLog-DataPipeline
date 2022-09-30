@@ -45,7 +45,7 @@ services:
     volumes:
       - type: bind
         # ${WORKSPACE} is added to run Jenkins
-        source: ${WORKSPACE}/var/nfs/cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        source: ${WORKSPACE}/cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
         target: /usr/cat_watcher_output
     restart: always
     depends_on:
