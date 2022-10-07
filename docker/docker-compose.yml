@@ -35,8 +35,9 @@ services:
     image: cat_data_watcher:latest
     volumes:
       - type: bind
-        # ${WORKSPACE} is added to run Jenkins
-        source: ${WORKSPACE}/cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        # ${WORKSPACE} and cat_watcher_output are added to run Jenkins
+        #source: ${WORKSPACE}/cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        source: ../cat_watcher_output
         target: /usr/cat_watcher_output
     restart: always
     depends_on:
