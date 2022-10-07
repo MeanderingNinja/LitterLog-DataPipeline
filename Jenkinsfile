@@ -61,15 +61,15 @@ pipeline {
         sh 'cd docker && docker compose ps'
       }
     }
-    //stage('Unit Testing') { // Perform unit testing (The tests are written based on using the home server192.168.1.157, so this won't work here)
-      //steps {
-        //script {
-          //sh """
-          //python3 -m pytest test/test_*
-          //"""
-        //}
-      //}
-    //}
+    stage('Unit Testing') { // Perform unit testing (database url in the tests were based on using catechserver and now modified to db)
+      steps {
+        script {
+          sh """
+          python3 -m pytest test/test_*
+          """
+        }
+      }
+    }
     stage('Run tests against the nginx/metabase container'){
       steps{
         sh 'curl http://localhost'
