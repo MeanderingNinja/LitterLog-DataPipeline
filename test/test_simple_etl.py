@@ -4,7 +4,7 @@
 20220909
 Test to see if data from the target csv file can be loaded to the
 database peroperly through the ETL pipeline.
-The function that is being tested is pipeline_data().
+The function that is being tested is pipeline_data()- the extract-transform-load process(ETL).
 
 The function file_watcher() can not be tested at this point
 because it has a while loop in it. This will run in a loop and never completes
@@ -35,8 +35,8 @@ def test_file_watcher():
     """
     Test to move old data into the new format
     """
-    pipeline_data(Path("test/data/Atty20220908_20:56:08"))
     print("Transforming data from csv file and load into test database pa-test")
+    pipeline_data(Path("test/data/Atty20220908_20:56:08"))
 
     test_engine = create_engine(DATABASE_URL)
 

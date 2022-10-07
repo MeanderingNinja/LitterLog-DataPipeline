@@ -22,7 +22,7 @@ from datetime import date, datetime
 # The env var is not set 20220908
 TEST_DATABASE_URL = os.getenv(
     "TEST_DATABASE_URL",
-    "postgresql+psycopg2://pa-test:pa-test@192.168.1.157:5432/pa-test",
+    "postgresql+psycopg2://metabase_catwatcher_test_user:metabase_catwatcher_test_pw@localhost:5432/metabase_catwatcher_test_db",
 )
 
 # The scope is set to "session" to inform pytest that we want 

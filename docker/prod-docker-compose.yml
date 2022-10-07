@@ -6,14 +6,16 @@ services:
     ports:
       - "127.0.0.1:3001:3000"   # Used 3001 instead as 3000 is used when installing metabase locally 
     volumes:
-      - metabase_docker:/metabase # Volume mount is used instead of bind mount for the convenience of running Jenkins
+      - type: bind
+        source: /opt/catwatcher/metabase_docker  
+        target: /metabase  # directory in docker 
     restart: always
     environment:
       MB_DB_TYPE: postgres
-      MB_DB_DBNAME: metabase_catwatcher_test_db
+      MB_DB_DBNAME: metabase_catwatcher_db
       MB_DB_PORT: 5432
-      MB_DB_USER: metabase_catwatcher_test_user
-      MB_DB_PASS: metabase_catwatcher_test_pw
+      MB_DB_USER: metabase_catwatcher_user
+      MB_DB_PASS: metabase_catwatcher_pw
       MB_DB_HOST: db 
       MB_DB_FILE: /metabase/metabase-data  # Directory in docker 
     depends_on:
@@ -21,13 +23,16 @@ services:
 
   db:
     image: postgres
+    # Changed the volumes from bind mount to volume mount (simpler to run through Jenkins pipeline)
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - type: bind
+        source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
+        target: /var/lib/postgresql/data
     restart: always
     environment:
-      POSTGRES_USER: metabase_catwatcher_test_user
-      POSTGRES_PASSWORD: metabase_catwatcher_test_pw
-      POSTGRES_DB: metabase_catwatcher_test_db
+      POSTGRES_USER: metabase_catwatcher_user
+      POSTGRES_PASSWORD: metabase_catwatcher_pw
+      POSTGRES_DB: metabase_catwatcher_db
     ports: 
       - 5431:5432   # 5431 on the cattechserver might have been used by my experiment on setting up postgres and metabase with docker
 
@@ -35,15 +40,14 @@ services:
     image: cat_data_watcher:latest
     volumes:
       - type: bind
-        # ${WORKSPACE} is added to run Jenkins
-        source: ${WORKSPACE}/cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        source: /var/nfs/cat_watcher_output 
         target: /usr/cat_watcher_output
     restart: always
     depends_on:
       - db
     environment:
       CAT_DATA_DMZ: /usr/cat_watcher_output  # This environment variable is called in cli.py
-      DATABASE_URL: postgresql+psycopg2://metabase_catwatcher_test_user:metabase_catwatcher_test_pw@db:5432/metabase_catwatcher_test_db 
+      DATABASE_URL: postgresql+psycopg2://metabase_catwatcher_user:metabase_catwatcher_pw@db:5432/metabase_catwatcher_db 
     # cat_data_migrate, cat_data_watcher is command line tool made available from using this image
     command: bash -c "sleep 5 && cat_data_migrate && cat_data_watcher"   
 
@@ -58,6 +62,3 @@ services:
       - type: bind
         source: ./nginx.conf
         target: /etc/nginx/nginx.conf
-volumes:
-  metabase_docker:
-  db_data:
