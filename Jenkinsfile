@@ -65,7 +65,9 @@ pipeline {
       steps {
         script {
           sh """
-          cd docker && docker compose exec -it datawatcher python3 -m pytest test/test_*
+          cd docker
+          docker compose exec -it datawatcher python3 -m pip install pytest
+          docker compose exec -it datawatcher python3 -m pytest test/test_*
           """
         }
       }
