@@ -36,13 +36,14 @@ services:
     volumes:
       - type: bind
         # ${WORKSPACE} and cat_watcher_output are added to run Jenkins
-        source: ${WORKSPACE}/cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
-        #source: ../cat_watcher_output
+        # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        source: ${WORKSPACE}/cat_watcher_output 
+        #source: ../cat_watcher_output # for testing without using Jenkins
         target: /usr/cat_watcher_output
-      # 20221010: Added so that I can run unit test inside of docker container
+      # 20221010: Added so that I can run unit tests inside of docker container
       - type: bind
         source: ${WORKSPACE}/test
-        #source: ../test
+        #source: ../test # for testing without using Jenkins
         target: /test
       - type: bind
         source: ${WORKSPACE}/CatDataSchema
