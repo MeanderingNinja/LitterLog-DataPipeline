@@ -39,10 +39,14 @@ services:
         source: ${WORKSPACE}/cat_watcher_output # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
         #source: ../cat_watcher_output
         target: /usr/cat_watcher_output
+      # 20221010: Added so that I can run unit test inside of docker container
       - type: bind
         source: ${WORKSPACE}/test
         #source: ../test
         target: /test
+      - type: bind
+        source: ${WORKSPACE}/CatDataSchema
+        target: /CatDataSchema
     restart: always
     depends_on:
       - db
