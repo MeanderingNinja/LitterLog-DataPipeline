@@ -63,7 +63,7 @@ services:
     depends_on:
       - metabase
     ports:
-      - "11190:80" # forward metabase port, 11190 may have been used. DOn't think this is a problem. Tried 11191, same issue persists.
+      - "11190:80" # forward metabase port, 11190 may have been used. DOn't think this is a problem. Tried 11191, same issue persists
     volumes:
       - type: bind
         source: ./nginx.conf
