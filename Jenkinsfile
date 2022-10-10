@@ -67,7 +67,7 @@ pipeline {
           sh """
           cd docker
           docker compose exec -it datawatcher python3 -m pip install pytest
-          docker compose exec -it datawatcher python3 -m pytest test/test_*
+          docker compose exec -it datawatcher python3 -m pytest ../test/test_*
           """
         }
       }

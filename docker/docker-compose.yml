@@ -41,6 +41,7 @@ services:
         target: /usr/cat_watcher_output
       - type: bind
         source: ${WORKSPACE}/test
+        #source: ../test
         target: /test
     restart: always
     depends_on:
