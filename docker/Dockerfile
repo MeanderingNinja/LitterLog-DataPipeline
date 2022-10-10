@@ -8,5 +8,6 @@ COPY VERSION /opt/catwatcher/cat_data_schema/ingest/.
 COPY CatDataSchema /opt/catwatcher/cat_data_schema/ingest/CatDataSchema
 COPY setup.py /opt/catwatcher/cat_data_schema/ingest/.
 COPY requirements.txt /opt/catwatcher/cat_data_schema/ingest/.
+COPY test /opt/catwatcher/cat_data_schema/ingest/test
 
 RUN pip install -e /opt/catwatcher/cat_data_schema/ingest
