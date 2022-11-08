@@ -12,6 +12,6 @@ import os
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+psycopg2://metabase_catwatcher_user:metabase_catwatcher_pw@db:5432/metabase_catwatcher_db",
+    "postgresql+psycopg2://metabase_catwatcher_user:metabase_catwatcher_pw@192.168.1.157:5432/metabase_catwatcher_db",
 )
 
