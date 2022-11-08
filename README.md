@@ -65,3 +65,28 @@ After deploying the latest container, if you need to run alembic migrations:
     # inside bash
     kts-migrate
     ```
+
+# Running the Docker Container (Written on 20221108, not tested after writing)
+
+## Cloning the Repo
+To download the code, navigate to a folder of your choosing on your machine
+```
+git clone https://github.com/emma-jinger/cat_data.git 
+```
+## Build the Docker Image
+Build our docker image `cat_data_watcher:latest` by running: 
+```
+./build.sh
+```
+## Spin up the containers (metabase, postgres, nginx, and cat_data_watcher)
+Before using docker compose to spin the containers up, modify `DATABASE_URL` in `CatDataSchema/config.py` and `sqlalchemy.url` in `CatDataSchema/alembic.ini` to match the `DATABASE_URL` in `prod-docker-compose.yml`: 
+```postgresql+psycopg2://metabase_catwatcher_user:metabase_catwatcher_pw@db:5432/metabase_catwatcher_db```
+
+Spin up the container with the commands: 
+```
+cd docker 
+sudo docker compose up -f prod-docker-compose.yml
+```
+## Check the data on Metabase 
+Go to the browser using `http://192.168.1.157:3001`, you should be able to see cat data whenever there is a new file generated. 
+
