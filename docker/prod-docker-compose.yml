@@ -1,4 +1,4 @@
-# Before usding docker compose to spin the containers up, 
+# Before using docker compose to spin the containers up, 
 # Modify DATABASE_URL in CatDataSchema/config.py and sqlalchemy.url in CatDataSchema/alembic.ini 
 # to match the DATABASE_URL defined here: 
 # postgresql+psycopg2://metabase_catwatcher_user:metabase_catwatcher_pw@db:5432/metabase_catwatcher_db
