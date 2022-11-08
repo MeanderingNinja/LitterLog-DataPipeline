@@ -65,6 +65,30 @@ After deploying the latest container, if you need to run alembic migrations:
     # inside bash
     kts-migrate
     ```
+# Building the Project from Source
+Before building, make sure: 
+- The metabase service is already set. The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
+- The postgres database is set up with the target role, db, and pw.
+
+## Set up a virtual env in the server (optional)
+I create a virtual environment `cat_data_pipeline_venv`
+## Cloning the Repo to the virtual env directory 
+To download the code, navigate to a folder of your choosing on your machine
+```
+git clone https://github.com/emma-jinger/cat_data.git 
+```
+
+## Verify Database info
+- `DATABASE_URL` in `config.py` should match database information in the Metabase service env var file `/etc/default/matabase`.
+- Value of `sqlalchemy.url` in `CatDataSchema/alembic` should match the above `DATABASE_URL`.
+ 
+## Build the data pipeline project 
+```
+cd CatDataSchema 
+pip install -e . 
+```
+## Check data from metabase 
+Go to the address `http://192.168.1.157:3000`
 
 # Running the Docker Container (Written on 20221108, not tested after writing)
 
