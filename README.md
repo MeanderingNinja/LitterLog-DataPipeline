@@ -65,7 +65,7 @@ After deploying the latest container, if you need to run alembic migrations:
     # inside bash
     kts-migrate
     ```
-# Building the Project from Source
+# Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir)
 Before building, make sure: 
 - The metabase service is already set. The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
@@ -82,9 +82,8 @@ git clone https://github.com/emma-jinger/cat_data.git
 - `DATABASE_URL` in `config.py` should match database information in the Metabase service env var file `/etc/default/matabase`.
 - Value of `sqlalchemy.url` in `CatDataSchema/alembic` should match the above `DATABASE_URL`.
  
-## Build the data pipeline project 
+## Build the data pipeline project from the directory cat_data (project root)
 ```
-cd CatDataSchema 
 pip install -e . 
 ```
 ## Check data from metabase 
@@ -111,6 +110,6 @@ Spin up the container with the commands:
 cd docker 
 sudo docker compose up -f prod-docker-compose.yml
 ```
-## Check the data on Metabase 
+## Check the data on Metabase. 
 Go to the browser using `http://192.168.1.157:3001`, you should be able to see cat data whenever there is a new file generated. 
 
