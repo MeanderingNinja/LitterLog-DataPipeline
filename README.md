@@ -1,6 +1,11 @@
 # Cat Data Schema
 
 Repository containing the cat data schema for data storage and visualization using sqlalchemy, alembic, and postgresql
+# What does this program do?
+It watches new csv files in `/var/nfs/cat_watcher_output` (produced by the CatWatcher program running in the Nano device).
+When a new file is found, it loads the data to the database `metabase_catwatcher_db`, which is defined in `config.py`.
+This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`).
+![cat_data_etl.png]()
 
 # Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir)
 **Before building, make sure:** 
