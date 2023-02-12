@@ -82,5 +82,5 @@ sudo docker compose up -f prod-docker-compose.yml
 Go to the browser using `http://192.168.1.157:3001`, you should be able to see cat data whenever there is a new file generated. 
 
 # To Do List to modify this documentation/project 20230212
-- The package I made does not have a `init__.py` file in the source directory CatDataSchema. Fix that. And understand why it hasn't affected me yet. 
+- The package I made does not have a `__init__.py` file in the source directory CatDataSchema. Fix that. And understand why it hasn't affected me yet. 
 - Test the package locally and using Docker again to make sure it runs smoothly. 
