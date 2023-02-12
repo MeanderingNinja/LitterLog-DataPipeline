@@ -66,8 +66,8 @@ After deploying the latest container, if you need to run alembic migrations:
     kts-migrate
     ```
 # Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir)
-Before building, make sure: 
-- The metabase service is already set. The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
+**Before building, make sure:** 
+- [The metabase service is set up](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu). The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
 
 ## Set up a virtual env in the server (optional)
