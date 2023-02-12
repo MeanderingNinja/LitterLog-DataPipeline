@@ -7,6 +7,7 @@ When a new file is found, it loads the data to the database `metabase_catwatcher
 This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`).
 ![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/cat_data_etl_diagram.png)
 # The File Structure of this Project
+This is made into a Python package, which can be installed by using the command `pip install -e .`
 ```
 Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 .
@@ -80,3 +81,6 @@ sudo docker compose up -f prod-docker-compose.yml
 ## Check the data on Metabase. 
 Go to the browser using `http://192.168.1.157:3001`, you should be able to see cat data whenever there is a new file generated. 
 
+# To Do List to modify this documentation/project 20230212
+- The package I made does not have a `init__.py` file in the source directory CatDataSchema. Fix that. And understand why it hasn't affected me yet. 
+- Test the package locally and using Docker again to make sure it runs smoothly. 
