@@ -2,10 +2,35 @@
 
 Repository containing the cat data schema for data storage and visualization using sqlalchemy, alembic, and postgresql
 # What does this program do?
-It watches new csv files in `/var/nfs/cat_watcher_output` (produced by the CatWatcher program running in the Nano device).
+It watches new csv files in `/var/nfs/cat_watcher_output` (produced by the CatWatcher program running in the Nano device and mounted to this directory).
 When a new file is found, it loads the data to the database `metabase_catwatcher_db`, which is defined in `config.py`.
 This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`).
 ![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/cat_data_etl_diagram.png)
+# The File Structure of this Project
+```
+Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
+.
+└── cat_data/
+    ├── CatDataSchema/
+    │   ├── alembic/
+    │   │   ├── env.py
+    │   │   ├── README
+    │   │   ├── script.py.mako
+    │   │   └── versions/
+    │   │       └── 9722539bc713_initiate_model_20220823.py
+    │   ├── alembic.ini
+    │   ├── cli.py
+    │   ├── config.py
+    │   ├── models.py
+    │   └── simple_etl.py
+    ├── MANIFEST.in
+    ├── README.md
+    ├── requirements.txt
+    ├── setup.py
+    ├── VERSION
+    └── .gitignore
+```
+
 
 # Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir)
 **Before building, make sure:** 
