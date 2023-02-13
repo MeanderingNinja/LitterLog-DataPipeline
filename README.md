@@ -1,8 +1,8 @@
 # Cat Data Schema
 
-Repository containing the cat data schema for data storage and visualization using sqlalchemy, alembic, and postgresql
+Repository containing the cat data schema for data storage using sqlalchemy, alembic, and postgresql
 
-## building
+## building (TO EDIT 20230210)
 
 You can build the kernel.test.schema docker by running build.sh
     ./build.sh
@@ -11,9 +11,9 @@ this will build a container with tag `test_station_watcher:latest`
 to interact with the container, use
     docker run -it --name watcher test_station_watcher:latest /bin/bash
 
-### Notes (running on WSL:Ubuntu)
+### Notes (running on the Ubuntu server cattechsever)
 
-From the kernel.test.schema directory
+From the directory /home/cat_dev/cat_tech/cat_data_pipeline_venv/cat_data
 
     pip install -e .
 
@@ -22,11 +22,7 @@ Installing postgresql (needs to be done before installing pyscopg2)
     sudo apt install postgresql postgresql-contrib
     sudo service postgresql start
     sudo service postgresql status
-    sudo apt install libpq-dev
-
-Install pyscopg2
-
-    pip install psycopg2
+    sudo apt install libpq-dev (Not sure if I need this line. This was a line from kernel.test.schema)
 
 Generating new migrations
 ./alembic.sh revision --autogenerate -m "myfirstmigration"
@@ -65,13 +61,15 @@ After deploying the latest container, if you need to run alembic migrations:
     # inside bash
     kts-migrate
     ```
+
 # Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir)
+
 Before building, make sure: 
 - The metabase service is already set. The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
 
 ## Set up a virtual env in the server (optional)
-I create a virtual environment `cat_data_pipeline_venv`
+A virtual environment `cat_data_pipeline_venv` was created in my case.
 ## Cloning the Repo to the virtual env directory 
 To download the code, navigate to a folder of your choosing on your machine
 ```
