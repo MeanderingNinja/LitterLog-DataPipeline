@@ -13,6 +13,7 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 .
 └── cat_data/
     ├── CatDataSchema/
+    │   ├── __init__.py
     │   ├── alembic/
     │   │   ├── env.py
     │   │   ├── README
