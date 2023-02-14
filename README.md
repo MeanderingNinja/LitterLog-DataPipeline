@@ -1,75 +1,45 @@
 # Cat Data Schema
 
-Repository containing the cat data schema for data storage using sqlalchemy, alembic, and postgresql
+Repository containing the cat data schema for data storage and visualization using sqlalchemy, alembic, and postgresql
+# What does this program do?
+It watches new csv files in `/var/nfs/cat_watcher_output` (produced by the CatWatcher program running in the Nano device and mounted to this directory).
+When a new file is found, it loads the data to the database `metabase_catwatcher_db`, which is defined in `config.py`.
+This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`).
+![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/cat_data_etl_diagram.png)
+# The File Structure of this Project
+This is made into a Python package, which can be installed by using the command `pip install -e .`
+```
+Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
+.
+└── cat_data/
+    ├── CatDataSchema/
+    │   ├── alembic/
+    │   │   ├── env.py
+    │   │   ├── README
+    │   │   ├── script.py.mako
+    │   │   └── versions/
+    │   │       └── 9722539bc713_initiate_model_20220823.py
+    │   ├── alembic.ini
+    │   ├── cli.py
+    │   ├── config.py
+    │   ├── models.py
+    │   └── simple_etl.py
+    ├── MANIFEST.in
+    ├── README.md
+    ├── requirements.txt
+    ├── setup.py
+    ├── VERSION
+    └── .gitignore
+```
 
-## building (TO EDIT 20230210)
-
-You can build the kernel.test.schema docker by running build.sh
-    ./build.sh
-this will build a container with tag `test_station_watcher:latest`
-
-to interact with the container, use
-    docker run -it --name watcher test_station_watcher:latest /bin/bash
-
-### Notes (running on the Ubuntu server cattechsever)
-
-From the directory /home/cat_dev/cat_tech/cat_data_pipeline_venv/cat_data
-
-    pip install -e .
-
-Installing postgresql (needs to be done before installing pyscopg2)
-
-    sudo apt install postgresql postgresql-contrib
-    sudo service postgresql start
-    sudo service postgresql status
-    sudo apt install libpq-dev (Not sure if I need this line. This was a line from kernel.test.schema)
-
-Generating new migrations
-./alembic.sh revision --autogenerate -m "myfirstmigration"
-
-## Deploying to Production
-
-### Prod environment
-
-We deploy onto our on-site `util` server using the docker/docker-compose.yml via a service at `/etc/systemd/system/test_station.service`.
-
-Only the test_station_watcher service depends on kernel.test.schema, the other services are pulled from external registries.
-
-### Deploy updated kernel.test.schema
-
-Deploying is manual right now, you should clone this repo onto util to build the watcher container:
-
-    ```bash
-    cd path/to/test-station-schema/kernel.test.schema
-    docker build . -t registry.kernel.corp/software/test_station_watcher:latest -f docker/Dockerfile
-    docker login registry.kernel.corp
-    docker image push registry.kernel.corp/software/test_station_watcher:latest
-    ```
-
-Then restart the watcher service
-
-    ```bash
-    systemctl restart test_station.service
-    ```
-
-### Migrate db in prod
-
-After deploying the latest container, if you need to run alembic migrations:
-
-    ```bash
-    docker exec -it test_station_watcher_1 /bin/bash
-    # inside bash
-    kts-migrate
-    ```
 
 # Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir)
-
-Before building, make sure: 
-- The metabase service is already set. The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
+**Before building, make sure:** 
+- [The metabase service is set up](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu). The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
 
 ## Set up a virtual env in the server (optional)
-A virtual environment `cat_data_pipeline_venv` was created in my case.
+I create a virtual environment `cat_data_pipeline_venv`
 ## Cloning the Repo to the virtual env directory 
 To download the code, navigate to a folder of your choosing on your machine
 ```
@@ -111,3 +81,7 @@ sudo docker compose up -f prod-docker-compose.yml
 ## Check the data on Metabase. 
 Go to the browser using `http://192.168.1.157:3001`, you should be able to see cat data whenever there is a new file generated. 
 
+# To Do List to modify this documentation/project 20230212
+- The package I made does not have a `__init__.py` file in the source directory CatDataSchema. Fix that. And understand why it hasn't affected me yet. 
+- Test the package locally and using Docker again to make sure it runs smoothly. 
+- Write an article on how I did Unit test on this python package
