@@ -40,9 +40,9 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 - The postgres database is set up with the target role, db, and pw.
 
 ## Set up a virtual env in the server (optional)
-I create a virtual environment `cat_data_pipeline_venv`
-## Cloning the Repo to the virtual env directory 
-To download the code, navigate to a folder of your choosing on your machine
+Create a virtual environment `cat_data_pipeline_venv`
+## Cloning the Repo to the virtual env directory/your working directory   
+To download the code, navigate to your working directory
 ```
 git clone https://github.com/emma-jinger/cat_data.git 
 ```
