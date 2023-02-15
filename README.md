@@ -47,11 +47,11 @@ To download the code, navigate to your working directory
 git clone https://github.com/emma-jinger/cat_data.git 
 ```
 
-## Verify Database info
+## Verify Database Info
 - `DATABASE_URL` in `config.py` should match database information in the Metabase service env var file `/etc/default/matabase`.
 - Value of `sqlalchemy.url` in `CatDataSchema/alembic` should match the above `DATABASE_URL`.
  
-## Build the data pipeline project from the directory cat_data (project root)
+## Build the Data Pipeline from the Project Root (cat_data)
 ```
 pip install -e . 
 ```
