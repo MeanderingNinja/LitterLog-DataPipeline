@@ -41,7 +41,7 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 
 ## Set up a virtual env in the server (optional)
 Create a virtual environment `cat_data_pipeline_venv`
-## Cloning the Repo to the virtual env directory/your working directory   
+## Cloning the Repo   
 To download the code, navigate to your working directory
 ```
 git clone https://github.com/emma-jinger/cat_data.git 
