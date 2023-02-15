@@ -86,3 +86,5 @@ Go to the browser using `http://192.168.1.157:3001`, you should be able to see c
 - The package I made does not have a `__init__.py` file in the source directory CatDataSchema. Fix that. And understand why it hasn't affected me yet. 
 - Test the package locally and using Docker again to make sure it runs smoothly. 
 - Write an article on how I did Unit test on this python package
+# Additional feature to add 
+- Make a PYPI server and push my package to the server (Write a guide as well)
