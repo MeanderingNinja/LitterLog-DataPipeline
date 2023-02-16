@@ -1,7 +1,7 @@
 from os import environ
 from pathlib import Path
 
-import clic
+import click
 
 from .simple_etl import file_watcher
 
