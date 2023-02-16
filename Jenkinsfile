@@ -10,10 +10,11 @@ pipeline {
   stages {  // Define the individual processes, or stages, of your CI pipeline
     stage('Checkout') { // Checkout (git clone ...) the projects repository
       steps {
+        // The checkout scm command is used to check out the source code for a project that is managed by a Source Code Management (SCM) system, such as Git.
         checkout scm
       }
     }
-    stage('Setup') { // Install any dependencies you need to perform testing
+    stage('Setup') { // Install any dependencies you need to perform testing.
       steps {
         script {
           sh """

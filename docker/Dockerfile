@@ -1,4 +1,6 @@
 FROM python:3.10
+# Added on 20230216 to solve the "Failed to clean the workspace" error
+USER cat_dev_jenkins
 
 RUN mkdir -p /opt/catwatcher/cat_data_schema/ingest
 
