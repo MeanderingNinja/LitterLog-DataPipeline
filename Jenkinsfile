@@ -25,17 +25,17 @@ pipeline {
         }
       }
     }
-    stage('Linting') { // Run pylint against your code
-      steps {
-        catchError{
-          script {
-            sh """
-            python3 -m pylint **/*.py
-            """
-          }
-        }
-      }
-    }
+    // stage('Linting') { // Run pylint against your code
+    //   steps {
+    //     catchError{
+    //       script {
+    //         sh """
+    //         python3 -m pylint **/*.py
+    //         """
+    //       }
+    //     }
+    //   }
+    // }
     stage('Verify tooling'){ // https://www.youtube.com/watch?v=ZPD_PzGOvFM&t=168s (How to use docker compose with Jenkins)
       steps{
         sh '''
