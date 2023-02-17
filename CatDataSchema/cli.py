@@ -1,5 +1,5 @@
 from os import environ
-from pathlib import Path
+from pathlib import Pat
 
 import click
 
