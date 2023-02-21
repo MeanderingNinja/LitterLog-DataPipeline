@@ -51,10 +51,11 @@ git clone https://github.com/emma-jinger/cat_data.git
 - `DATABASE_URL` in `config.py` should match database information in the Metabase service env var file `/etc/default/matabase`.
 - Value of `sqlalchemy.url` in `CatDataSchema/alembic` should match the above `DATABASE_URL`.
  
-## Build the Data Pipeline from the Project Root (cat_data)
+## Install the `CatDataSchema` Package from the Project Root (cat_data)
 ```
 pip install -e . 
 ```
+*Refer to [Make-a-Python-Package](https://github.com/emma-jinger/Make-a-Python-Package) to read more about working with Python packages.*
 ## Check data from metabase 
 Go to the address `http://192.168.1.157:3000`
 
