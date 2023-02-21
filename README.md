@@ -5,7 +5,7 @@ Repository containing the cat data schema for data storage and visualization usi
 It watches new csv files in `/var/nfs/cat_watcher_output` (produced by the CatWatcher program running in the Nano device and mounted to this directory).
 When a new file is found, it loads the data to the database `metabase_catwatcher_db`, which is defined in `config.py`.
 This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`).
-![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/cat_data_etl_diagram.png)
+![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/Diagrams/cat_data_etl_diagram.png)
 # The File Structure of this Project
 This is made into a Python package, which can be installed by using the command `pip install -e .`
 ```
@@ -62,6 +62,8 @@ pip install -e .
 Go to the address `http://192.168.1.157:3000`
 
 # Running the Docker Container (Written on 20221108, not tested after writing)
+Bel(ow is the diagram that explains the docker compose set up.
+![catdat_docker_diagram](https://github.com/emma-jinger/cat_data/blob/main/Diagrams/catdata_docker_diagram.png)
 
 ## Cloning the Repo
 To download the code, navigate to a folder of your choosing on your machine
