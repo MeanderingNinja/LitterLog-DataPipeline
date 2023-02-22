@@ -62,7 +62,7 @@ pip install -e .
 Go to the address `http://192.168.1.157:3000`
 
 # Running the Docker Container (Written on 20221108, not tested after writing)
-Bel(ow is the diagram that explains the docker compose set up.
+Below is the diagram that explains the docker compose set up.
 ![catdat_docker_diagram](https://github.com/emma-jinger/cat_data/blob/main/Diagrams/catdata_docker_diagram.png)
 
 ## Cloning the Repo
@@ -73,7 +73,11 @@ git clone https://github.com/emma-jinger/cat_data.git
 ## Build the Docker Image
 Build our docker image `cat_data_watcher:latest` by running: 
 ```
-./build.sh
+sudo ./build.sh
+```
+Check if the `cat_data_watcher:latest` has been built by running:
+```
+sudo docker images
 ```
 ## Spin up the containers (metabase, postgres, nginx, and cat_data_watcher)
 Before using docker compose to spin the containers up, modify `DATABASE_URL` in `CatDataSchema/config.py` and `sqlalchemy.url` in `CatDataSchema/alembic.ini` to match the `DATABASE_URL` in `prod-docker-compose.yml`: 
@@ -82,8 +86,9 @@ Before using docker compose to spin the containers up, modify `DATABASE_URL` in 
 Spin up the container with the commands: 
 ```
 cd docker 
-sudo docker compose up -f prod-docker-compose.yml
+sudo docker compose -f prod-docker-compose.yml up
 ```
+*Note: The -f option allows you to specify the name and location of the Compose file to use for starting the Docker containers.*
 ## Check the data on Metabase. 
 Go to the browser using `http://192.168.1.157:3001`, you should be able to see cat data whenever there is a new file generated. 
 

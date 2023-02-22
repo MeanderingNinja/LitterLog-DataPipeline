@@ -1,7 +1,10 @@
 # Before using docker compose to spin the containers up, 
-# Modify DATABASE_URL in CatDataSchema/config.py and sqlalchemy.url in CatDataSchema/alembic.ini 
+# Make sure DATABASE_URL in CatDataSchema/config.py and sqlalchemy.url in CatDataSchema/alembic.ini 
 # to match the DATABASE_URL defined here: 
 # postgresql+psycopg2://metabase_catwatcher_user:metabase_catwatcher_pw@db:5432/metabase_catwatcher_db
+
+# 20230221: the database url is the same as the one in the local build. 
+# So I don't need to manually modify DATABASE_URL in CatDataSchema/config.py and sqlalchemy.url in CatDataSchema/alembic.ini anymore
 version: '3.8' 
 
 services:
@@ -28,10 +31,10 @@ services:
   db:
     image: postgres
     # Changed the volumes from bind mount to volume mount (simpler to run through Jenkins pipeline)
-    volumes:
-      - type: bind
-        source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
-        target: /var/lib/postgresql/data
+    # volumes:
+    #   - type: bind
+    #     source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
+    #     target: /var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: metabase_catwatcher_user
