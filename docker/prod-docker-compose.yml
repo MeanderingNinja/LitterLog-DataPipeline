@@ -31,10 +31,10 @@ services:
   db:
     image: postgres
     # Changed the volumes from bind mount to volume mount (simpler to run through Jenkins pipeline)
-    # volumes:
-    #   - type: bind
-    #     source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
-    #     target: /var/lib/postgresql/data
+    volumes:
+      - type: bind
+        source: /opt/catwatcher/db-data       # might have permission issue for docker mount. Doesn't seem to have the problem20220915 
+        target: /var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: metabase_catwatcher_user
