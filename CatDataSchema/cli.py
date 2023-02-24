@@ -22,7 +22,7 @@ def cat_data_watcher():
 @click.command()
 def migrate():
     """
-    run alembic migration using package alembic.ini
+    Run alembic migration using package alembic.ini
     """
     from pathlib import Path
 
@@ -32,11 +32,15 @@ def migrate():
     ALEMBIC_CONFIG_FILE = Path(__file__).parent / "alembic.ini"
 
     print("Migrating database ...")
+    # Create an Alembic configuration object
     alembic_cfg = Config(str(ALEMBIC_CONFIG_FILE))
+    # Set a configuration option for Alembic that specifies the directory where the Alembic migration scripts are located.
+    # __file__ means the path to the current file
     alembic_cfg.set_main_option(
         "script_location", str((Path(__file__).parent / "alembic").absolute())
     )
     upgrade(alembic_cfg, "head")
+    print("Data migration completed!")
 
 
 #cat_data_watcher()

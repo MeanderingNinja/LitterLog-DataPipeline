@@ -18,12 +18,13 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-#target_metadata = None
-# Emma 20220729
+# target_metadata = None
+
+# Emma:20230222
 from CatDataSchema.models import (
     Base,
     CatData,
-)  # I assumed the import of Base should not work, but it seems to work
+)  
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
