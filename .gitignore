@@ -14,7 +14,7 @@ build/
 .env
 *.iml
 *.csv
-alembic
+
 
 #Added by cargo
 
