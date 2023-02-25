@@ -115,9 +115,9 @@ def transform_cat_data(filepath: Path, pipeline_run_id: uuid.UUID) -> list:
     """
     Extract the target csv data
     Convert the data in each column into matching datatypes defined in models.py
-    :Param filepath: the path of the target file
 
-    Returns a list of CatData objects
+    :Param filepath: the path of the target file
+    Returns a list of CatData objects (only one row atm 20230223)
     """
     LOGGER.info(f"ETL pipeline {pipeline_run_id} - Transforming csv data into CatData.")
     with open(filepath, encoding="utf-8") as csv_file:
@@ -150,28 +150,41 @@ def load_cat_data(
     """
     Load cat_data into database at DATABASE_URL
 
-    Parameters
+    :Param cat_data: a list of CatData objects (CatData class is defined in models.py)
     """
     LOGGER.info(f"ETL pipeline {pipeline_run_id} - Loading CatData to database")
-
     LOGGER.info(f"ETL pipeline {pipeline_run_id} - Beginning database session")
+
     from sqlalchemy.orm import sessionmaker
     from sqlalchemy import (
         create_engine,
     )
     # 20220920 debug
-    LOGGER.info(f"DATABASE_URL used is {DATABASE_URL}")
+    LOGGER.debug(f"DATABASE_URL used is {DATABASE_URL}")
+
     cat_schema_engine = create_engine(DATABASE_URL)
+    # Create the cat_data table in the database based on the model defined in models.py if not existed
+    _create_cat_data_table(cat_schema_engine)
+    # sessionmaker acts as a factory for Session objects
     Session = sessionmaker(bind=cat_schema_engine)
+    # Then create individual sessions off the global Session
     s = Session()
+    # Add the object to the session and commit
     s.add_all(cat_data)
     s.commit()
+    # Always close the session when done
     s.close()
     # Close the engine
     cat_schema_engine.dispose()
 
     LOGGER.info(f"ETL pipeline {pipeline_run_id} - Loading cat_data complete")
 
+def _create_cat_data_table(engine):
+    if not engine.dialect.has_table(engine, 'users'):
+        # create the table if it doesn't exist
+        Base.metadata.create_all(engine)
+    else:
+        LOGGER.info("The cat_data table is already in the database.")
 
 # watch_dir = "/home/emma_dev22/CatWatcher/output/"  # to modify
 # file_watcher(watch_dir)
