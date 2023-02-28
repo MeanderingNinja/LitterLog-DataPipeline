@@ -41,6 +41,9 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 
 ## Set up a virtual env in the server (optional)
 Create a virtual environment `cat_data_pipeline_venv`
+
+*Note: When you install your application using `pip` without a virtual environment, the application is installed globally, which means that it is available to all users and processes on your system. When you run the application, you can access it from any directory by typing the name of the application. When you install your application using `pip` within a virtual environment, the application is installed only within that virtual environment, and it is not available to other users or processes on the system. To run the application, you need to activate the virtual environment first, and then you can access the application from the activated environment.*
+
 ## Cloning the Repo   
 To download the code, navigate to your working directory
 ```
