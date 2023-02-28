@@ -14,8 +14,12 @@ import time
 from .config import DATABASE_URL
 
 # from CatDataSchema.models import CatData
-from .models import CatData
+from .models import CatData, Base, SCHEMA_NAME, TABLE_NAME
 import sqlalchemy
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import (
+    create_engine, text
+)
 
 LOGGER = logging.getLogger("ETL")
 LOGGER.setLevel(logging.INFO)
@@ -39,6 +43,7 @@ LOGGER.addHandler(stream_handler)
 # file_handler.setFormatter(formatter)
 # LOGGER.addHandler(file_handler)
 DIRECTORY_WATCH_SLEEP = 30
+BASE = Base
 
 def file_watcher(watch_dir: Path):
     """
@@ -145,46 +150,46 @@ def _from_orderedDict(row: OrderedDict) -> CatData:
 
 def load_cat_data(
     cat_data: List[CatData],
-    pipeline_run_id: uuid.UUID,
+    pipeline_run_id: uuid.UUID
 ):
     """
     Load cat_data into database at DATABASE_URL
 
     :Param cat_data: a list of CatData objects (CatData class is defined in models.py)
     """
-    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Loading CatData to database")
-    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Beginning database session")
+    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Loading CatData to database...")
+    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Beginning database session...")
 
-    from sqlalchemy.orm import sessionmaker
-    from sqlalchemy import (
-        create_engine,
-    )
     # 20220920 debug
-    LOGGER.debug(f"DATABASE_URL used is {DATABASE_URL}")
+    LOGGER.info(f"DATABASE_URL used is {DATABASE_URL}")
 
     cat_schema_engine = create_engine(DATABASE_URL)
+    # Create the cat_data_schema table in the database based on the model defined in models.py if not existed
+    _create_schema_if_not_exist(cat_schema_engine, SCHEMA_NAME)
     # Create the cat_data table in the database based on the model defined in models.py if not existed
-    _create_cat_data_table(cat_schema_engine)
+    Base.metadata.create_all(bind=cat_schema_engine, checkfirst=True)
+
     # sessionmaker acts as a factory for Session objects
     Session = sessionmaker(bind=cat_schema_engine)
     # Then create individual sessions off the global Session
-    s = Session()
-    # Add the object to the session and commit
-    s.add_all(cat_data)
-    s.commit()
-    # Always close the session when done
-    s.close()
+    with Session() as s:
+        # Add the object to the session and commit
+        s.add_all(cat_data)
+        s.commit()
+    
     # Close the engine
     cat_schema_engine.dispose()
 
     LOGGER.info(f"ETL pipeline {pipeline_run_id} - Loading cat_data complete")
 
-def _create_cat_data_table(engine):
-    if not engine.dialect.has_table(engine, 'users'):
-        # create the table if it doesn't exist
-        Base.metadata.create_all(engine)
-    else:
-        LOGGER.info("The cat_data table is already in the database.")
+
+def _create_schema_if_not_exist(engine, schema_name):
+    # create schema if it doesn't exist
+    from sqlalchemy.schema import CreateSchema
+    with engine.connect() as conn:
+        if not conn.dialect.has_schema(conn, schema_name):
+            conn.execute(CreateSchema(schema_name))
+            LOGGER.info(f"The schema {schema_name} created successfully!")
 
 # watch_dir = "/home/emma_dev22/CatWatcher/output/"  # to modify
 # file_watcher(watch_dir)
