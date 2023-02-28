@@ -35,7 +35,7 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 
 
 # Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir).
-## Before building, make sure:##
+## Before building, make sure:
 - [The metabase service is set up](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu). The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
 
@@ -67,8 +67,9 @@ cat_data_watcher
 ``` 
 *Note: cat_data_watcher can be [set up as a service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) so that this app will always be running in the background.*
 
-## Check data from metabase 
-Go to the address `http://192.168.1.157:3000`
+## Check data from metabase or the database
+Go to the address `http://192.168.1.157:3000` to access the metabase interface and the data inside.
+
 
 You can also check to see the data from the actual database with the following commands:
 ```bash
