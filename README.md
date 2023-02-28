@@ -35,7 +35,7 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 
 
 # Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir).
-**Before building, make sure:** 
+## Before building, make sure:##
 - [The metabase service is set up](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu). The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
 
@@ -61,8 +61,23 @@ pip install -e .
 ```
 *Refer to [Make-a-Python-Package](https://github.com/emma-jinger/Make-a-Python-Package) to read more about working with Python packages.*
 
+## Run the application `cat_data_watcher` to test the ETL pipeline
+```
+cat_data_watcher
+``` 
+*Note: cat_data_watcher can be [set up as a service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) so that this app will always be running in the background.*
+
 ## Check data from metabase 
 Go to the address `http://192.168.1.157:3000`
+
+You can also check to see the data from the actual database with the following commands:
+```bash
+psql -U metabase_catwatcher_user metabase_catwatcher_db -h 127.0.0.1 -W # type in the password when prompted
+```
+Once you are in the database, see all the schema and tables with this psql command: 
+```psql
+\dt *.*
+```
 
 # Running the Docker Container (Written on 20221108, not tested after writing)
 Below is the diagram that explains the docker compose set up.
