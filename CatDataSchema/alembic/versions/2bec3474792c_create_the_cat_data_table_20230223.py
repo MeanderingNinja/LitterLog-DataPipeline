@@ -14,6 +14,7 @@ revision = '2bec3474792c'
 down_revision = None
 branch_labels = None
 depends_on = None
+schema = "cat_data_schema"
 
 
 def upgrade() -> None:

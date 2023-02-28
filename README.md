@@ -19,12 +19,12 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
     │   │   ├── README
     │   │   ├── script.py.mako
     │   │   └── versions/
-    │   │       └── 9722539bc713_initiate_model_20220823.py
+    │   │       └── 2bec3474792c_create_the_cat_data_table_20230223.py
     │   ├── alembic.ini
     │   ├── cli.py
     │   ├── config.py
     │   ├── models.py
-    │   └── simple_etl.py
+    │   └── etl.py
     ├── MANIFEST.in
     ├── README.md
     ├── requirements.txt
