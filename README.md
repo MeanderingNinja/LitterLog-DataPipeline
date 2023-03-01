@@ -34,15 +34,18 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 ```
 
 
-# Building the Project from Source (Written on 20221108, tested to work in my existing virtual env dir).
+# Building the Project from Source (Tested to work 20230228).
 ## Before building, make sure:
 - [The metabase service is set up](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu). The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
 
 ## Set up a virtual env in the server (optional)
-Create a virtual environment `cat_data_pipeline_venv`
+Create a virtual environment `cat_data_pipeline_venv` using the command `python3 -m venv cat_data_pipeline_venv`
 
-*Note: When you install your application using `pip` without a virtual environment, the application is installed globally, which means that it is available to all users and processes on your system. When you run the application, you can access it from any directory by typing the name of the application. When you install your application using `pip` within a virtual environment, the application is installed only within that virtual environment, and it is not available to other users or processes on the system. To run the application, you need to activate the virtual environment first, and then you can access the application from the activated environment.*
+*Note:* 
+*When you install your application using `pip` without a virtual environment, the application is installed globally, which means that it is available to all users and processes on your system. When you run the application, you can access it from any directory by typing the name of the application.* 
+
+*When you install your application using `pip` within a virtual environment, the application is installed only within that virtual environment, and it is not available to other users or processes on the system. To run the application, you need to activate the virtual environment first, and then you can access the application from the activated environment.*
 
 ## Cloning the Repo   
 To download the code, navigate to your working directory
@@ -111,9 +114,6 @@ sudo docker compose -f prod-docker-compose.yml up
 ## Check the data on Metabase. 
 Go to the browser using `http://192.168.1.157:3001`, you should be able to see cat data whenever there is a new file generated. 
 
-# To Do List to modify this documentation/project 20230212
-- The package I made does not have a `__init__.py` file in the source directory CatDataSchema. Fix that. And understand why it hasn't affected me yet. 
-- Test the package locally and using Docker again to make sure it runs smoothly. 
-- Write an article on how I did Unit test on this python package
+
 # Additional feature to add 
 - Make a PYPI server and push my package to the server (Write a guide as well)

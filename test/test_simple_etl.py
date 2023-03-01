@@ -21,7 +21,7 @@ from pathlib import Path
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
-from CatDataSchema.simple_etl import (
+from CatDataSchema.etl import (
     pipeline_data,
 )
 from CatDataSchema.config import DATABASE_URL
