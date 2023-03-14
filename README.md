@@ -50,7 +50,7 @@ Create a virtual environment `cat_data_pipeline_venv` using the command `python3
 ## Cloning the Repo   
 To download the code, navigate to your working directory
 ```
-git clone https://github.com/emma-jinger/cat_data.git 
+git clone https://github.com/emma-jinger/LitterLog-DataPipeline
 ```
 
 ## Verify Database Info

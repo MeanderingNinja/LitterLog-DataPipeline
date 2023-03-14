@@ -1,3 +1,18 @@
+"""
+This module contains functions to extract, transform, and load data from csv files of cat data to a PostgreSQL database.
+It also includes a file watcher function to monitor a directory for new csv files and triggers the pipeline process.
+
+Functions:
+
+file_watcher(watch_dir: Path)
+Monitors the directory specified by watch_dir for csv files and triggers the pipeline process for the last modified file.
+
+pipeline_data(filepath: Path)
+The extract-transform-load process for the csv file specified by filepath. Extracts the data from the csv file,
+transforms it to match the data types defined in models.py, and loads it into the PostgreSQL database.
+
+"""
+
 import logging
 from pathlib import Path
 from collections import OrderedDict
@@ -36,8 +51,7 @@ stream_handler.setLevel(logging.INFO)
 stream_handler.setFormatter(formatter)
 LOGGER.addHandler(stream_handler)
 
-# also try to output to log file (may consider try and except later like kernel.test.schema)
-# temp removal, permission issue
+# 20230313: Output to log file (temp removal, permission issue)-May work on this in the future
 # file_handler = logging.FileHandler(filename="/var/log/ETL.log")
 # file_handler.setLevel(logging.INFO)
 # file_handler.setFormatter(formatter)
@@ -136,7 +150,8 @@ def transform_cat_data(filepath: Path, pipeline_run_id: uuid.UUID) -> list:
 
 def _from_orderedDict(row: OrderedDict) -> CatData:
     """
-    Change data type to the ones that are defined in the models.py
+    Change data type to the ones that are defined in the models.py.
+    
     :Param row: OrderedDict of a row from the csv data
     Returns a CatData object
     """

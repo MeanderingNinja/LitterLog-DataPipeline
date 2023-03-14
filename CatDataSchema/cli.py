@@ -1,3 +1,16 @@
+"""
+This module contains two command line scripts, 'cat_data_watcher' and 'migrate', that can be executed via terminal.
+
+'cat_data_watcher' monitors a specified directory (the directory is either the value of the environment variable 'CAT_DATA_DMZ' or, 
+if the environment variable is not set, the default value '/var/nfs/cat_watcher_output') and calls the 'file_watcher' function from the etl module 
+whenever a file is created or modified in the directory.
+
+'migrate' runs the Alembic database migration using the 'alembic.ini' configuration file located in the same directory as this module. The Alembic migration scripts
+are located in a directory named 'alembic' in the same directory as this module. This script will upgrade the database to the latest migration version.
+
+Both scripts are added as entry points in the package's setup.py file.
+"""
+
 from os import environ
 from pathlib import Path
 
@@ -8,7 +21,7 @@ from .etl import file_watcher
 # click.command() decorator takes in the function test_data_watcher() and modify it so that it can be called from the command line
 # Emma20220713: Path(test_data_dir) aims to join the path to get the full path (my understanding, details to be confirmed)
 
-# CAT_DATA_DMZ = "/var/nfs/cat_watcher_output" # An NFS directory in server  # This should be added as an Environment variable at some point or defined in docker files.
+# CAT_DATA_DMZ = "/var/nfs/cat_watcher_output" # An NFS directory on the server  # This should be added as an Environment variable at some point or defined in docker files.
 @click.command()
 def cat_data_watcher():
     """
