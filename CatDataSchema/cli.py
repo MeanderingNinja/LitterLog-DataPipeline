@@ -21,12 +21,12 @@ from dotenv import load_dotenv
 # Emma20220713: Path(test_data_dir) aims to join the path to get the full path (my understanding, details to be confirmed)
 
 # CAT_DATA_DMZ = "/var/nfs/cat_watcher_output" # An NFS directory on the server  # This should be added as an Environment variable at some point or defined in docker files.
-load_dotenv()
 @click.command()
 def cat_data_watcher():
     """
     Use watchdog to monitor the test data directory and fire our etl process
     """
+    load_dotenv()
     cat_data_dir = environ.get("CAT_DATA_DMZ", "/var/nfs/cat_watcher_output")
     file_watcher(Path(cat_data_dir))
 
