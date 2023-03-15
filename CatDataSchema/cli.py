@@ -13,19 +13,19 @@ Both scripts are added as entry points in the package's setup.py file.
 
 from os import environ
 from pathlib import Path
-
 import click
-
 from .etl import file_watcher
+from dotenv import load_dotenv
 
 # click.command() decorator takes in the function test_data_watcher() and modify it so that it can be called from the command line
 # Emma20220713: Path(test_data_dir) aims to join the path to get the full path (my understanding, details to be confirmed)
 
 # CAT_DATA_DMZ = "/var/nfs/cat_watcher_output" # An NFS directory on the server  # This should be added as an Environment variable at some point or defined in docker files.
+load_dotenv()
 @click.command()
 def cat_data_watcher():
     """
-    use watchdog to monitor the test data directory and fire our etl process
+    Use watchdog to monitor the test data directory and fire our etl process
     """
     cat_data_dir = environ.get("CAT_DATA_DMZ", "/var/nfs/cat_watcher_output")
     file_watcher(Path(cat_data_dir))
