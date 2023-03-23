@@ -15,7 +15,7 @@ build/
 *.iml
 *.csv
 CatDataSchema/.env
-
+cat_watcher_output/*
 
 #Added by cargo
 

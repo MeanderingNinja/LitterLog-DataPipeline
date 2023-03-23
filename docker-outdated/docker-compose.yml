@@ -1,0 +1,73 @@
+version: '3.8' 
+
+services:
+  metabase:
+    image: metabase/metabase:latest
+    ports:
+      - "127.0.0.1:3001:3000"   # Used 3001 instead as 3000 is used when installing metabase locally 
+    volumes:
+      - metabase_docker:/metabase # Volume mount is used instead of bind mount for the convenience of running Jenkins
+    restart: always
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase_catwatcher_test_db
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase_catwatcher_test_user
+      MB_DB_PASS: metabase_catwatcher_test_pw
+      MB_DB_HOST: db 
+      MB_DB_FILE: /metabase/metabase-data  # Directory in docker 
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: metabase_catwatcher_test_user
+      POSTGRES_PASSWORD: metabase_catwatcher_test_pw
+      POSTGRES_DB: metabase_catwatcher_test_db
+    ports: 
+      - 5431:5432   # 5431 on the cattechserver might have been used by my experiment on setting up postgres and metabase with docker
+
+  datawatcher:
+    image: cat_data_watcher:latest
+    volumes:
+      - type: bind
+        # ${WORKSPACE} and cat_watcher_output are added to run Jenkins
+        # Changed from /var/nfs/cat_watcher_output for the convenience of running through Jenkins pipeline
+        source: ${WORKSPACE}/cat_watcher_output 
+        #source: ../cat_watcher_output # for testing without using Jenkins
+        target: /usr/cat_watcher_output
+      # 20221010: Added so that I can run unit tests inside of docker container
+      - type: bind
+        source: ${WORKSPACE}/test
+        #source: ../test # for testing without using Jenkins
+        target: /test
+      - type: bind
+        source: ${WORKSPACE}/CatDataSchema
+        target: /CatDataSchema
+    restart: always
+    depends_on:
+      - db
+    environment:
+      CAT_DATA_DMZ: /usr/cat_watcher_output  # This environment variable is called in cli.py
+      DATABASE_URL: postgresql+psycopg2://metabase_catwatcher_test_user:metabase_catwatcher_test_pw@db:5432/metabase_catwatcher_test_db 
+    # cat_data_migrate, cat_data_watcher is command line tool made available from using this image
+    command: bash -c "sleep 5 && cat_data_migrate && cat_data_watcher"   
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    depends_on:
+      - metabase
+    ports:
+      - "11190:80" # forward metabase port, 11190 may have been used. DOn't think this is a problem. Tried 11191, same issue persists.
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+volumes:
+  metabase_docker:
+  db_data:
