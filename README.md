@@ -3,6 +3,7 @@ Repository containing an ETL pipeline and a data model for data storage using sq
 
 # What does this program do?
 It watches new csv files in the designated directory `/var/nfs/cat_watcher_output`. When a new file is detected, it loads the data to the database `metabase_catwatcher_db`, which is defined in `config.py`. <br>
+
 This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`).
 ![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/Diagrams/cat_data_etl_diagram.png)
 
