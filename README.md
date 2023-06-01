@@ -37,8 +37,8 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 
 # Building the Project from Source (Tested to work 20230228).
 ## Before building, make sure:
-- [The metabase service is set up](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu). The metabase unit file at `/etc/systemd/system/metabase.service` and the service env var file at `/etc/default/metabase` defines its setup. 
 - The postgres database is set up with the target role, db, and pw.
+- (Optional) [The metabase service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) has been configured, with the metabase unit file located at `/etc/systemd/system/metabase.service` and the service environment variable file at `/etc/default/metabase`, defining its setup. This configuration allows for effortless data viewing.  
 
 ## Set up a virtual env in the server (optional)
 Create a virtual environment `cat_data_pipeline_venv` using the command `python3 -m venv cat_data_pipeline_venv`
