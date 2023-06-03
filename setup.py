@@ -1,9 +1,9 @@
 from setuptools import setup, find_namespace_packages
 
-with open("README.md", "r") as file:
+with open("README.md", "r", encoding="utf-8") as file:
     long_description = file.read()
 
-with open("VERSION", "r") as version_file:
+with open("VERSION", "r", encoding="utf-8") as version_file:
     version = version_file.read()
 
 setup(
@@ -16,7 +16,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_namespace_packages(include=["CatDataSchema", "CatDataSchema.*"]),
     include_package_data=True,
-    install_requires=open("requirements.txt").read().splitlines(),
+    install_requires=open("requirements.txt", encoding="utf-8").read().splitlines(),
     entry_points={
         "console_scripts": [
             "cat_data_watcher=CatDataSchema.cli:cat_data_watcher",
