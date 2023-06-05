@@ -1,5 +1,5 @@
 """
-This module contains functions to extract, transform, and load data from csv files of cat data to a PostgreSQL database.
+This module contains functions to extract, transform, and load data from csv files containing cat bathroom usage data to a PostgreSQL database.
 It also includes a file watcher function to monitor a directory for new csv files and triggers the pipeline process.
 
 Functions:
@@ -25,22 +25,18 @@ import glob
 import os
 import time
 
-# from CatDataSchema.config import DATABASE_URL
-from .config import DATABASE_URL
-
-# from CatDataSchema.models import CatData
-from .models import CatData, Base, SCHEMA_NAME, TABLE_NAME
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import (
-    create_engine, text
-)
+from sqlalchemy import create_engine
+
+
+from .config import DATABASE_URL
+from .models import CatData, Base, SCHEMA_NAME
+
 
 LOGGER = logging.getLogger("ETL")
 LOGGER.setLevel(logging.INFO)
-
 LOGGER.propagate = False
-# create formatter
 formatter = logging.Formatter("%(asctime)s :%(levelname)s: %(message)s")
 
 # output on stdout
@@ -56,32 +52,37 @@ LOGGER.addHandler(stream_handler)
 # file_handler.setLevel(logging.INFO)
 # file_handler.setFormatter(formatter)
 # LOGGER.addHandler(file_handler)
+
 DIRECTORY_WATCH_SLEEP = 30
 BASE = Base
+
 
 def file_watcher(watch_dir: Path):
     """
     Checks a given directory for any csv files and triggers a pipeline for the last modified file.
     Assuming there could be multiple csv files in the output directory.
+
     :Param: watch_dir : Path The directory to be monitored
     """
     last_file_loaded = None
     while True:
-        LOGGER.info(f"globbing for existing files in {watch_dir}")
+        LOGGER.info("globbing for existing files in %s", watch_dir)
 
-        # Return a list of files that exist in watch_dir
         watch_files = glob.glob(f"{watch_dir}/*")
-        ############
-        # more detail to be added if there is 0, 1, or more files........
-        ############
-        times = {}
-        for path in watch_files:
-            # getmtime: get last modified time
-            times[path] = os.path.getmtime(path)
+        #################################
+        # more detail could be added to consider when there are more than 1 new files.....
+        # One or more new files could have been missed because of Internet connection or other issues
+        #################################
+        
+        # times = {}
+        # for path in watch_files:
+        #     times[path] = os.path.getmtime(path)
+        # Edited 20230605
         # Find the file that was last modified
+        times = {path: os.path.getmtime(path) for path in watch_files}
         target_file = max(times, key=times.get)
+        
         if target_file != last_file_loaded:
-            # Get the absolute path of the last modified file
             target_file_path = Path(target_file).absolute()
             # Trigger the etl pipeline
             pipeline_data(target_file_path)
@@ -91,42 +92,38 @@ def file_watcher(watch_dir: Path):
 
 def pipeline_data(filepath: Path):
     """
-    Our extract-transform-load process(ETL)
+    The extract-transform-load process(ETL).
 
-    :param filepath: A network-file-system(nfs) path containing data created from CatWatcher
+    :param filepath: A network-file-system(nfs) path containing data created from the CatWatcher program.
     """
     pipeline_run_id = uuid.uuid4()
-    LOGGER.info(f"Starting ETL pipeline {pipeline_run_id} for file {filepath}")
+    LOGGER.info("Starting ETL pipeline %s for file %s", pipeline_run_id, filepath)
 
     try:
         extract_cat_data(filepath, pipeline_run_id)  # Place holder
         cat_data = transform_cat_data(filepath, pipeline_run_id)
         load_cat_data(cat_data, pipeline_run_id)
-    except sqlalchemy.exc.IntegrityError as e:
-        LOGGER.error(f"ETL pipeline {pipeline_run_id} Encountered IntegrityError {e}")
+    except sqlalchemy.exc.IntegrityError as error_message:
+        LOGGER.error("ETL pipeline %s Encountered IntegrityError %s", pipeline_run_id, error_message)
         if "duplicate key value violates unique constraint" in str(e):
             LOGGER.info(
-                f"ETL pipeline {pipeline_run_id} Duplicate key detected, removing file {filepath}"
+                "ETL pipeline %s Duplicate key detected, removing file %s", pipeline_run_id, filepath
             )
             filepath.unlink(True)
-    except Exception as e:
-        LOGGER.error(
-            f"ETL pipeline {pipeline_run_id} encountered an error, aborting - {e}"
-        )
+    except Exception as error_message:
+        LOGGER.error("ETL pipeline %s encountered an error, aborting - %s", pipeline_run_id, error_message)
         return
     # if clean_on_success:
     #    LOGGER.info(f"ETL pipeline {pipeline_run_id} removing file {filepath}")
     #    filepath.unlink(True)
-    LOGGER.info(f"ETL pipeline {pipeline_run_id} complete")
+    LOGGER.info("ETL pipeline %s complete", pipeline_run_id)
 
 
 def extract_cat_data(filepath: Path, pipeline_run_id: uuid.UUID) -> Path:
     """
     pass for now.
     """
-    LOGGER.info(
-        f"ETL pipeline {pipeline_run_id} - Extracting contents of file {filepath}"
-    )
+    LOGGER.info("ETL pipeline %s - Extracting contents of file %s", pipeline_run_id, filepath)
     return filepath
 
 
@@ -138,7 +135,7 @@ def transform_cat_data(filepath: Path, pipeline_run_id: uuid.UUID) -> list:
     :Param filepath: the path of the target file
     Returns a list of CatData objects (only one row atm 20230223)
     """
-    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Transforming csv data into CatData.")
+    LOGGER.info("ETL pipeline %s - Transforming csv data into CatData.", pipeline_run_id)
     with open(filepath, encoding="utf-8") as csv_file:
         # DictReader returns each row as an ordered dictionary with key names from the header row.
         # https://www.andrewvillazon.com/move-data-to-db-with-sqlalchemy/
@@ -151,32 +148,30 @@ def transform_cat_data(filepath: Path, pipeline_run_id: uuid.UUID) -> list:
 def _from_orderedDict(row: OrderedDict) -> CatData:
     """
     Change data type to the ones that are defined in the models.py.
-    
+
     :Param row: OrderedDict of a row from the csv data
     Returns a CatData object
     """
     # Change OrderedDict to dict. Actually we shouldn't need it because we are using python 3.10
-    #row = dict(row)
+    # row = dict(row)
     # Entry and Depart in the raw data need to be converted to datetime type
     row["entry"] = datetime.fromtimestamp(float(row["entry"]))
     row["depart"] = datetime.fromtimestamp(float(row["depart"]))
     return CatData(**row)
 
 
-def load_cat_data(
-    cat_data: List[CatData],
-    pipeline_run_id: uuid.UUID
-):
+def load_cat_data(cat_data: List[CatData], pipeline_run_id: uuid.UUID):
     """
-    Load cat_data into database at DATABASE_URL
+    Load cat_data into database at DATABASE_URL.
 
     :Param cat_data: a list of CatData objects (CatData class is defined in models.py)
     """
-    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Loading CatData to database...")
-    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Beginning database session...")
+
+    LOGGER.info("ETL pipeline %s - Loading CatData to database...", pipeline_run_id)
+    LOGGER.info("ETL pipeline %s - Beginning database session...", pipeline_run_id)
 
     # 20220920 debug
-    LOGGER.info(f"DATABASE_URL used is {DATABASE_URL}")
+    LOGGER.info("DATABASE_URL used is %s", DATABASE_URL)
 
     cat_schema_engine = create_engine(DATABASE_URL)
     # Create the cat_data_schema table in the database based on the model defined in models.py if not existed
@@ -191,20 +186,22 @@ def load_cat_data(
         # Add the object to the session and commit
         s.add_all(cat_data)
         s.commit()
-    
+
     # Close the engine
     cat_schema_engine.dispose()
 
-    LOGGER.info(f"ETL pipeline {pipeline_run_id} - Loading cat_data complete")
+    LOGGER.info("ETL pipeline %s - Loading cat_data complete", pipeline_run_id)
 
 
 def _create_schema_if_not_exist(engine, schema_name):
     # create schema if it doesn't exist
     from sqlalchemy.schema import CreateSchema
+
     with engine.connect() as conn:
         if not conn.dialect.has_schema(conn, schema_name):
             conn.execute(CreateSchema(schema_name))
-            LOGGER.info(f"The schema {schema_name} created successfully!")
+            LOGGER.info("The schema %s created successfully!", schema_name)
+
 
 # watch_dir = "/home/emma_dev22/CatWatcher/output/"  # to modify
 # file_watcher(watch_dir)
