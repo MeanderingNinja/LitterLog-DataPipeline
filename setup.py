@@ -10,7 +10,7 @@ setup(
     name="CatDataSchema",
     version=version,
     author="Emma Li",
-    description="cat data schema package",
+    description="A package facilitating the extraction, transformation, and loading of cat litterbox time data into the database.",
     url="https://github.com/emma-jinger/CatWatcher/tree/main/CatDataSchema",
     long_description=long_description,
     long_description_content_type="text/markdown",
