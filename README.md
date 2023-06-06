@@ -37,10 +37,10 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 
 # Building the Project from Source (Tested to work 20230228).
 ## Before building, make sure:
-- The postgres database is set up with the target role, db, and pw.
+- The postgres database is set up with the target role, database, and password (should match `DATABASE_URL` in `.env`).
 - (Optional) [The metabase service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) has been configured, with the metabase unit file located at `/etc/systemd/system/metabase.service` and the service environment variable file at `/etc/default/metabase`, defining its setup. This configuration allows for effortless data viewing.  
 
-## Set up a virtual env on the server (optional)
+## Set up a virtual environment on the server (optional)
 Create a virtual environment `cat_data_pipeline_venv` using the command `python3 -m venv cat_data_pipeline_venv`
 
 ## Cloning the Repo   
@@ -49,8 +49,7 @@ To download the code, navigate to your working directory
 git clone https://github.com/emma-jinger/LitterLog-DataPipeline
 ```
 
-## Verify Database Info
-- `DATABASE_URL` in `config.py` should match the target database that was previously set up.  
+## Verify Database Info  
 - Database information in the Metabase service env var file `/etc/default/matabase` should also match the target database that was previously set up.
 - Value of `sqlalchemy.url` in `CatDataSchema/alembic.ini` should match the above `DATABASE_URL`.
  
