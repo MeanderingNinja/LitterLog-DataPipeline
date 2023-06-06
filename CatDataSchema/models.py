@@ -22,14 +22,15 @@ from sqlalchemy import (
     Integer,
     Date,
 )
-TABLE_NAME = "cat_data"
+
+TABLE_NAME = "cat_litterbox_time_data"
 SCHEMA_NAME = "cat_data_schema"
 Base = declarative_base()
 
 # Create CatData class with table name cat_data. This is the table name that will show up in Postgres.
 class CatData(Base):
     __tablename__ = TABLE_NAME
-    __table_args__ = {'schema': SCHEMA_NAME}  
+    __table_args__ = {"schema": SCHEMA_NAME}
     id = Column(Integer, primary_key=True)
     date = Column(Date)  # May change the column name to Date in the csv later
     entry = Column(DateTime)
@@ -37,7 +38,3 @@ class CatData(Base):
     duration = Column(Float)
 
     ####### @validates may need to be added later on ##############
-
-
-    
-
