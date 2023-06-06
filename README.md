@@ -4,7 +4,8 @@ Repository containing an ETL pipeline and a data model for data storage using sq
 # What does this program do?
 It watches new csv files in the designated directory `/var/nfs/cat_watcher_output`. When a new file is detected, it loads the data to the database `metabase_catwatcher_db`, which is defined in `config.py`. <br>
 
-This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`).
+This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`). <br>
+**Please update the following diagram.**
 ![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/Diagrams/cat_data_etl_diagram.png)
 
 # The File Structure of this Project
@@ -50,8 +51,8 @@ git clone https://github.com/emma-jinger/LitterLog-DataPipeline
 ```
 
 ## Verify Database Info  
-- Database information in the Metabase service env var file `/etc/default/matabase` should also match the target database that was previously set up.
-- Value of `sqlalchemy.url` in `CatDataSchema/alembic.ini` should match the above `DATABASE_URL`.
+- Edit `sqlalchemy.url` in `CatDataSchema/alembic.ini` to match the `DATABASE_URL` defined in the `.env` under the directory `CatDataSchema`.
+- Database information in the Metabase service file `/etc/default/matabase` should also match the `DATABASE_URL` defined in the `.env`.
  
 ## Install the `CatDataSchema` Package from the Project Root (cat_data)
 ```
@@ -65,13 +66,13 @@ cat_data_watcher
 ``` 
 *Note: cat_data_watcher can be [set up as a service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) so that this app will always be running in the background.*
 
-## Check data from metabase or the database
-Go to the address `http://192.168.1.157:3000` to access the metabase interface and the data inside.
+## Check data from metabase or the database ()
+Go to the address `http://192.168.1.157:3000` to access the Metabase interface to see the data if Metabase is set up.
 
 
 You can also check to see the data from the actual database with the following commands:
 ```bash
-psql -U metabase_catwatcher_user metabase_catwatcher_db -h 127.0.0.1 -W # type in the password when prompted
+psql -U your_postgres_user your_postgres_db -h 127.0.0.1 -W # type in the password when prompted
 ```
 Once you are in the database, see all the schema and tables with this psql command: 
 ```psql
