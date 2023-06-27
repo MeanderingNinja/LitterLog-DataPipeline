@@ -2,40 +2,13 @@
 Repository containing an ETL pipeline and a data model for data storage using sqlalchemy, alembic, and postgresql.
 
 # What does this program do?
-It watches new csv files in the designated directory `/var/nfs/cat_watcher_output`. When a new file is detected, it loads the data to the database `metabase_catwatcher_db`, which is defined in `config.py`. <br>
+The program operates as a data ingestion mechanism, actively monitoring the designated directory, denoted as `CAT_DATA_DMZ`, for the presence of newly introduced CSV files. Upon detection of a new file, the program imports the enclosed data into the designated database, the connection details of which are specified by the `DATABASE_URL` configuration parameter within the `config.py` file.<br>
 
-This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`). <br>
-**Please update the following diagram.**
+This program can be set up as a service running in the background, so it will always be running. <br>
+
+
+# The Diagram of this Project
 ![LitterLog-DataPipeline_Diagram](https://github.com/emma-jinger/LitterLog-DataPipeline/blob/main/Diagrams/LitterLog-DataPipeline_Diagram.png)
-
-# The File Structure of this Project
-This is made into a Python package, which can be installed by using the command `pip install -e .`
-**Please update the following file structure.**
-```
-Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
-.
-└── cat_data/
-    ├── CatDataSchema/
-    │   ├── __init__.py
-    │   ├── alembic/
-    │   │   ├── env.py
-    │   │   ├── README
-    │   │   ├── script.py.mako
-    │   │   └── versions/
-    │   │       └── 2bec3474792c_create_the_cat_data_table_20230223.py
-    │   ├── alembic.ini
-    │   ├── cli.py
-    │   ├── config.py
-    │   ├── models.py
-    │   └── etl.py
-    ├── MANIFEST.in
-    ├── README.md
-    ├── requirements.txt
-    ├── setup.py
-    ├── VERSION
-    └── .gitignore
-```
-
 
 # Building the Project from Source
 ## Before building, make sure:
