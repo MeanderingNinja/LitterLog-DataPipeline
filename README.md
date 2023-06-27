@@ -2,7 +2,7 @@
 Repository containing an ETL pipeline and a data model for data storage using sqlalchemy, alembic, and postgresql.
 
 # What does this program do?
-The program operates as a data ingestion mechanism, actively monitoring the designated directory, denoted as `CAT_DATA_DMZ`, for the presence of newly introduced CSV files. Upon detection of a new file, the program imports the enclosed data into the designated database, the connection details of which are specified by the `DATABASE_URL` configuration parameter within the `config.py` file.<br>
+The program acts as a data ingestion mechanism, monitoring the `CAT_DATA_DMZ` directory for new CSV files. When a new file is detected, the program imports the data into the designated database defined by the `DATABASE_URL` configuration in `config.py`.<br>
 
 This program can be set up as a service running in the background, so it will always be running. <br>
 
@@ -26,9 +26,9 @@ git clone https://github.com/emma-jinger/LitterLog-DataPipeline
 
 ## Verify Database Info  
 - Edit `sqlalchemy.url` in `CatDataSchema/alembic.ini` to match the `DATABASE_URL` defined in the `.env` under the directory `CatDataSchema`.
-- Database information in the Metabase service file `/etc/default/matabase` should also match the `DATABASE_URL` defined in the `.env`.
+- Database information in the Metabase service file `/etc/default/matabase` should also match the `DATABASE_URL` defined in the `.env`, if the serice is to be set up.
  
-## Install the `CatDataSchema` Package from the Project Root (cat_data)
+## Install the `CatDataSchema` Package from the Project Root
 ```
 pip install -e . 
 ```
@@ -41,8 +41,7 @@ cat_data_watcher
 *Note: cat_data_watcher can be [set up as a service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) so that this app will always be running in the background.*
 
 ## Check data from Metabase or the database
-Go to the address `http://192.168.1.157:3000` to access the Metabase interface to see the data if Metabase is set up.
-
+Go to the address `http://192.168.1.157:3000` to access the Metabase interface to see the data if Metabase serviceis set up.
 
 You can also check to see the data from the actual database with the following commands:
 ```bash
