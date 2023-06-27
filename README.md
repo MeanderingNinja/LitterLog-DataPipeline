@@ -6,10 +6,11 @@ It watches new csv files in the designated directory `/var/nfs/cat_watcher_outpu
 
 This program is setup to be a service running in the background, so it is always running on the server (`cat_tech_server`). <br>
 **Please update the following diagram.**
-![cat data etl diagram](https://github.com/emma-jinger/cat_data/blob/main/Diagrams/cat_data_etl_diagram.png)
+![LitterLog-DataPipeline_Diagram](https://github.com/emma-jinger/LitterLog-DataPipeline/blob/main/Diagrams/LitterLog-DataPipeline_Diagram.png)
 
 # The File Structure of this Project
 This is made into a Python package, which can be installed by using the command `pip install -e .`
+**Please update the following file structure.**
 ```
 Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 .
@@ -36,7 +37,7 @@ Working directory: /home/cat_dev/cat_tech/cat_data_pipeline_venv/
 ```
 
 
-# Building the Project from Source (Tested to work 20230228).
+# Building the Project from Source
 ## Before building, make sure:
 - The postgres database is set up with the target role, database, and password (should match `DATABASE_URL` in `.env`).
 - (Optional) [The metabase service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) has been configured, with the metabase unit file located at `/etc/systemd/system/metabase.service` and the service environment variable file at `/etc/default/metabase`, defining its setup. This configuration allows for effortless data viewing.  
@@ -66,7 +67,7 @@ cat_data_watcher
 ``` 
 *Note: cat_data_watcher can be [set up as a service](https://github.com/emma-jinger/Set-Up-a-Service-on-Ubuntu) so that this app will always be running in the background.*
 
-## Check data from metabase or the database ()
+## Check data from Metabase or the database
 Go to the address `http://192.168.1.157:3000` to access the Metabase interface to see the data if Metabase is set up.
 
 
@@ -83,11 +84,6 @@ Once you are in the database, see all the schema and tables with this psql comma
 Below is the diagram that explains the docker compose set up.
 ![catdat_docker_diagram](https://github.com/emma-jinger/cat_data/blob/main/Diagrams/catdata_docker_diagram.png)
 
-## Cloning the Repo
-To download the code, navigate to a folder of your choosing on your machine
-```
-git clone https://github.com/emma-jinger/cat_data.git 
-```
 ## Build the Docker Image
 Build our docker image `cat_data_watcher:latest` by running: 
 ```
