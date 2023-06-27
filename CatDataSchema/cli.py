@@ -56,6 +56,3 @@ def migrate():
     upgrade(alembic_cfg, "head")
     print("Data migration completed!")
 
-
-# cat_data_watcher()
-# migrate()
