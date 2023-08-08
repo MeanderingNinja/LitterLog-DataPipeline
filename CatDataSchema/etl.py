@@ -51,6 +51,7 @@ LOGGER.addHandler(stream_handler)
 DIRECTORY_WATCH_SLEEP = 30
 BASE = Base
 
+
 def file_watcher(watch_dir: Path) -> None:
     """
     Checks a given directory for any csv files and triggers the ETL pipeline for the last modified file.
@@ -69,7 +70,7 @@ def file_watcher(watch_dir: Path) -> None:
         if target_file != last_file_loaded:
             # Trigger the etl pipeline
             target_file_path = Path(target_file).absolute()
-            pipeline_data(target_file_path) 
+            pipeline_data(target_file_path)
             last_file_loaded = target_file
 
         time.sleep(DIRECTORY_WATCH_SLEEP)
@@ -118,9 +119,7 @@ def extract_cat_data(filepath: Path, pipeline_run_id: uuid.UUID) -> Path:
     """
     pass
     """
-    LOGGER.info(
-        "ETL pipeline %s - Extracting contents of file %s", pipeline_run_id, filepath
-    )
+    LOGGER.info("ETL pipeline %s - Extracting contents of file %s", pipeline_run_id, filepath)
     return filepath
 
 
@@ -133,9 +132,7 @@ def transform_cat_data(filepath: Path, pipeline_run_id: uuid.UUID) -> list:
 
     Returns a list of CatData objects.
     """
-    LOGGER.info(
-        "ETL pipeline %s - Transforming csv data into CatData.", pipeline_run_id
-    )
+    LOGGER.info("ETL pipeline %s - Transforming csv data into CatData.", pipeline_run_id)
     with open(filepath, encoding="utf-8") as csv_file:
         cat_data_csv_reader = csv.DictReader(csv_file, quotechar='"')
         cat_data = [_from_orderedDict(row) for row in cat_data_csv_reader]
@@ -194,4 +191,3 @@ def _create_schema_if_not_exist(engine, schema_name):
         if not conn.dialect.has_schema(conn, schema_name):
             conn.execute(CreateSchema(schema_name))
             LOGGER.info("The schema %s created successfully!", schema_name)
-

@@ -1,4 +1,4 @@
-"""Create the cat_data Table 20230223
+"""Create the cat_litterbox_time_data Table 20230223
 
 Revision ID: 2bec3474792c
 Revises: 
@@ -28,7 +28,7 @@ def upgrade() -> None:
         sa.Column("depart", sa.DateTime(), nullable=True),
         sa.Column("duration", sa.Float(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
-        schema = schema
+        schema=schema,
     )
     # ### end Alembic commands ###
 

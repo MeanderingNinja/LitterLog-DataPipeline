@@ -1,15 +1,13 @@
-# Test if all of the .py files in the program directory
-# ~/cat_tech/cat_data_pipeline_venv/cat_data
-# can be imported without error
-
 import importlib
-from pathlib import Path 
+from pathlib import Path
+
 
 def walk_for_py(path):
     """
     Get all .py file in the specified directory.
-    :Param path: the path of the target directory 
-    Returns a iterator of all the .py files under the target directory
+
+    :Param path: the path of the target directory
+    Returns an iterator of all the .py files under the target directory
     """
     for p in Path(path).iterdir():
         if p.is_dir():
@@ -19,7 +17,6 @@ def walk_for_py(path):
 
 
 def test_import_all_files():
-    # go to the parent dir of cat_data: cd ~/cat_tech/cat_data_pipeline_venv/cat_data
     python_files = walk_for_py("CatDataSchema")
     for python_file in python_files:
         if python_file.name == "__init__.py":
